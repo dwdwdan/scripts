@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# This script will use the 8.8.8.8 DNS server to test for an internet connection.
+# If one is not found, it tests for a connection to 192.168.0.1. This is a common router IP.
+# It essentially saves a few commands when troubleshooting network issues
+
+ping -c 1 8.8.8.8 2>/dev/null | grep " 0% packet loss" > /dev/null
+if [ $? == 0 ]; then
+	echo "You have Internet Connection"
+else
+	ping -c 1 192.168.0.1 2>/dev/null | grep " 0% packet loss" > /dev/null
+	if [ $? == 0 ]; then
+		echo "You have connection to your home router but not to the internet"
+		echo "This likely means you're ISP is having issues"
+	else
+		echo "You have no connection to your router"
+		echo "This probably means your router is off or broken"
+	fi
+fi
