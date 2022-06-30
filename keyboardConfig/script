@@ -1,3 +1,5 @@
 #!/bin/sh
-xmodmap ~/bin/keyboardConfig/xmodmap
+
+sleep 2
+xmodmap /home/dan/scripts/keyboardConfig/xmodmap
 xcape -e 'Control_L=Escape'
