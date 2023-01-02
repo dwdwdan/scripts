@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+backup_dir=/backupDrive/Backups
+date=$(date +%FT%R)
+
+echo "Backing up to $backup_dir"
+echo "Current timestamp is $date"
+
+borg create \
+     --exclude-from /home/dan/bin/backup_exclude.txt \
+     \
+     $backup_dir/Borg::$date \
+     /home/dan/Desktop \
+     /home/dan/Documents \
+     /home/dan/Nextcloud \
+     /home/dan/Pictures \
+     /home/dan/repos \
+     /home/dan/texmf \
+     /home/dan/website \
+     /home/dan/.config \
+     /home/dan/.dotfiles \
+     /home/dan/.local/etc \
+     /etc/keyd
+
+echo "File Backup Complete"
+echo "Exporting a package list"
+
+dnf list --installed | sed 1d > $backup_dir/dnf_packages.txt
+
+echo "Backup Completed"
